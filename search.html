@@ -1,99 +1,129 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <title></title>
-    <link rel="stylesheet" type="text/css" href="./css/style.css" />
-  </head>
-  <body>
-    <div class="wrapper">
-      <!-- the Header section -->
-      <header>
-        <!-- logo -->
-        <div class="logo">
-          <a href="index.html">
-            <h1>CrowdFunding</h1>
-          </a>
-        </div>
+	<head>
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="./css/style.css" />
+	</head>
+	<body>
+		<div class="wrapper">
+			<!-- the Header section -->
+			<header>
+				<!-- logo -->
+				<div class="logo">
+					<a href="index.html">
+						<h1>CrowdFunding</h1>
+					</a>
+				</div>
 
-        <!-- Nav-bar -->
-        <nav>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="search.html">Search</a></li>
-          </ul>
-        </nav>
-      </header>
+				<!-- Nav-bar -->
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="search.html">Search</a></li>
+					</ul>
+				</nav>
+			</header>
 
-      <!-- Hero section -->
-      <div class="breadcrumb">
-        <input type="text" placeholder="Search by Organizers..." id="org" />
-        <input type="text" placeholder="Search by Category..." id="cat" />
-        <input type="text" placeholder="Search by City..." id="city" />
-        <div>
-          <button type="submit" id="submitBtn">Search</button>
-          <button type="button" id="clearBtn">Clear</button>
-        </div>
-      </div>
-      <section class="crowdfunds">
-        <h1>Search Result</h1>
-        <h1 style="color: red" id="error"></h1>
-        <div class="card-container" id="card-container"></div>
-      </section>
-    </div>
-    <!-- <script src="./js/script.js"></script> -->
-    <script>
-      const submitBtn = document.getElementById("submitBtn");
-      const clearBtn = document.getElementById("clearBtn");
+			<!-- Hero section -->
+			<div class="breadcrumb">
+				<input type="text" placeholder="Search by Organizers..." id="org" />
+				<input type="text" placeholder="Search by Category..." id="cat" />
+				<input type="text" placeholder="Search by City..." id="city" />
+				<div>
+					<button type="submit" id="submitBtn">Search</button>
+					<button type="button" id="clearBtn">Clear</button>
+				</div>
+			</div>
+			<section class="crowdfunds">
+				<h1>Search Result</h1>
+				<h1 style="color: red" id="error"></h1>
+				<div class="card-container" id="card-container"></div>
+			</section>
+			<footer class="footer">
+				<div class="footer-content">
+					<div class="footer-section">
+						<h3 class="footer-heading">About</h3>
+						<p class="footer-text">
+							Support a Cause, Make a Difference: Your Contribution Matters!
+							Join our community in funding dreams, helping those in need, and
+							creating a positive impact, one donation at a time.
+						</p>
+					</div>
 
-      submitBtn.addEventListener("click", search);
-      clearBtn.addEventListener("click", clearCheckboxes);
+					<div class="footer-section">
+						<h3 class="footer-heading">Quick Links</h3>
+						<ul class="footer-links">
+							<li class="footer-link-item">
+								<a href="index.html" class="footer-link">Home</a>
+							</li>
+							<li class="footer-link-item">
+								<a href="#" class="footer-link">Search</a>
+							</li>
+						</ul>
+					</div>
+				</div>
 
-      function clearCheckboxes() {
-        const org = document.getElementById("org");
-        const cat = document.getElementById("cat");
-        const city = document.getElementById("city");
+				<div class="footer-bottom">
+					<p class="footer-copyright">
+						©2024 CrowdFunding Platform. All rights reserved.
+					</p>
+				</div>
+			</footer>
+		</div>
+		<!-- <script src="./js/script.js"></script> -->
+		<script>
+			const submitBtn = document.getElementById("submitBtn");
+			const clearBtn = document.getElementById("clearBtn");
 
-        org.value = "";
-        cat.value = "";
-        city.value = "";
-      }
+			submitBtn.addEventListener("click", search);
+			clearBtn.addEventListener("click", clearCheckboxes);
 
-      function search() {
-        let org = document.getElementById("org");
-        let cat = document.getElementById("cat");
-        let city = document.getElementById("city");
+			function clearCheckboxes() {
+				const org = document.getElementById("org");
+				const cat = document.getElementById("cat");
+				const city = document.getElementById("city");
 
-        if (org.value === "" && cat.value === "" && city.value === "") {
-          alert("Please select on the criteria...");
-        } else {
-          document.getElementById("card-container").innerHTML = "";
-          document.getElementById("error").innerHTML = "";
+				org.value = "";
+				cat.value = "";
+				city.value = "";
+			}
 
-          const baseUrl = new URL("http:/localhost:3000/api/fundraisers");
+			function search() {
+				let org = document.getElementById("org");
+				let cat = document.getElementById("cat");
+				let city = document.getElementById("city");
 
-          if (org.value) {
-            baseUrl.searchParams.append("organizer", org.value);
-          }
+				if (org.value === "" && cat.value === "" && city.value === "") {
+					alert("Please select on the criteria...");
+				} else {
+					document.getElementById("card-container").innerHTML = "";
+					document.getElementById("error").innerHTML = "";
 
-          if (cat.value) {
-            baseUrl.searchParams.append("category", cat.value);
-          }
+					const baseUrl = new URL("http:/localhost:3000/api/fundraisers");
 
-          if (city.value) {
-            baseUrl.searchParams.append("city", city.value);
-          }
+					if (org.value) {
+						baseUrl.searchParams.append("organizer", org.value);
+					}
 
-          fetch(baseUrl)
-            .then((response) => response.json())
-            .then((json) => {
-              const res = json.data.fundraisers;
-              let card = "";
-              if (!res.length) {
-                document.getElementById("error").innerHTML =
-                  "No Fundraisers are found";
-              } else {
-                res.forEach((item) => {
-                  card += `
+					if (cat.value) {
+						baseUrl.searchParams.append("category", cat.value);
+					}
+
+					if (city.value) {
+						baseUrl.searchParams.append("city", city.value);
+					}
+
+					fetch(baseUrl)
+						.then((response) => response.json())
+						.then((json) => {
+							const res = json.data.fundraisers;
+							let card = "";
+							if (!res.length) {
+								document.getElementById("error").innerHTML =
+									"No Fundraisers are found";
+							} else {
+								res.forEach((item) => {
+									card += `
 								<div class="card">
 									<div class="img">
 										<img src="./images/crowd.png" width="100px" alt="">
@@ -104,16 +134,16 @@
 											
 									
 								</div>`;
-                });
-                document.getElementById("card-container").innerHTML = card;
-              }
-            })
-            .catch((err) => {
-              document.getElementById("error").innerHTML =
-                "No Fundraisers are found";
-            });
-        }
-      }
-    </script>
-  </body>
+								});
+								document.getElementById("card-container").innerHTML = card;
+							}
+						})
+						.catch((err) => {
+							document.getElementById("error").innerHTML =
+								"No Fundraisers are found";
+						});
+				}
+			}
+		</script>
+	</body>
 </html>
